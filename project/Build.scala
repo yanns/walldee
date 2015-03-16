@@ -2,6 +2,8 @@ import sbt._
 import sbt.Keys._
 import com.typesafe.sbt.jse.JsEngineImport.JsEngineKeys
 import com.typesafe.sbt.less.Import._
+import com.typesafe.sbt.packager.docker.DockerPlugin
+import com.typesafe.sbt.packager.docker.DockerPlugin.autoImport._
 import com.typesafe.sbt.uglify.Import._
 import com.typesafe.sbt.web.Import._
 import play.Play.autoImport._
@@ -24,7 +26,7 @@ object ApplicationBuild extends Build {
     "org.mockito" % "mockito-all" % "1.9.0" % "test"
   )
 
-  val main = Project(appName, file(".")).enablePlugins(play.PlayScala).settings(
+  val main = Project(appName, file(".")).enablePlugins(play.PlayScala).enablePlugins(DockerPlugin).settings(
     version := appVersion,
     libraryDependencies ++= appDependencies,
     scalacOptions += "-feature",
@@ -34,7 +36,9 @@ object ApplicationBuild extends Build {
     includeFilter in (Assets, LessKeys.less) := "*.less",
     excludeFilter in (Assets, LessKeys.less) := "_*.less",
 
-    pipelineStages in Assets := Seq(uglify)
+    pipelineStages in Assets := Seq(uglify),
+
+    dockerExposedPorts := Seq(9000)
   )
 
 }

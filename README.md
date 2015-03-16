@@ -34,6 +34,16 @@ Is hosted by [Travis-CI](https://travis-ci.org/untoldwind/walldee)
 
 ![Build status](https://api.travis-ci.org/untoldwind/walldee.png)
 
+# Docker image
+
+Generate the docker image with
+
+    sbt docker:publishLocal
+
+Start the doker image with
+
+    docker run -p 9000:9000 walldee:1.0-SNAPSHOT -DapplyEvolutions.default=true
+
 # Notes
 
 Large parts of the backend still look very very ugly. <do far most eye-candy went into the wall display itself.
